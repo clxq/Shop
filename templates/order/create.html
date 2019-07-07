@@ -1,0 +1,25 @@
+{% extends 'shop/base.html' %}
+{% block title %}
+    结算
+{% endblock %}
+{% block content %}
+    <h1>结算</h1>
+    <div class="order-info">
+        <h3>你的订单</h3>
+        <ul>
+            {% for item in cart %}
+                <li>
+                    {{ item.quantity }}x{{ item.product.name }}
+                    <span>{{ item.total_price }}元</span>
+                </li>
+            {% endfor %}
+        </ul>
+        <p>合计：{{ cart.get_total_price }}元</p>
+    </div>
+    <form action="{% url "order:pay" %}" method="post" class="order-form">
+        <input type="hidden" value="{{ cart.get_total_price }}" name="price">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p><input type="submit" value="下单"></p>
+    </form>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{% static 'shop/css/shop.css' %}"
+          type="text/css" rel="stylesheet">
+</head>
+<body>
+<div id="header">
+    <a href="/" class="logo">Shopping</a>
+</div>
+<div id="subheader">
+    <div class="cart">
+        {% with total_items=cart|length  %}
+            {% if total_items > 0 %}
+                你的购物车：
+                <a href="{% url 'cart:cart_detail' %}">
+                {{ total_items }}件商品，共{{ cart.get_total_price }}元
+                </a>
+            {% else %}
+                你的购物车是空的
+            {% endif %}
+        {% endwith %}
+    </div>
+</div>
+<div id="content">
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>
